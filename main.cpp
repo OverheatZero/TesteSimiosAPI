@@ -49,16 +49,21 @@ int main() {
     crow::SimpleApp app;
     CROW_ROUTE(app, "/simian").methods(crow::HTTPMethod::POST)([](const crow::request& req) {
         auto body = crow::json::load(req.body);
+
+        if (!body)
+            return crow::response(400, "JSON inválido");
+
         std::vector<std::string> valores;
         for (const auto& linha : body["dna"]) {
             valores.push_back(std::string(linha.s()));
-            // valores.append("\n");
         }
+
         int size = valores.size();
         std::string linhas[size];
         for (int i = 0; i < size; i++) {
             linhas[i] = valores[i];
         }
+
        if (isSimian(linhas)) {
            return crow::response(200);
        }else {
