@@ -1,5 +1,7 @@
 #include <iostream>
 #include <crow.h>
+#include <pqxx/pqxx>
+
 #include <iostream>
 #define SEQUENCIA_MIN 4
 
