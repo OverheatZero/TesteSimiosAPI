@@ -7,7 +7,7 @@
 #include <bits/stl_pair.h>
 #define SEQUENCIA_MIN 4
 
-bool isSimian(std::string dna[]) {
+bool isSimian(std::string dna[]) { //Função da lógica principal
 
     const int tamanho = dna[0].size();
     for (int i = 0; i < tamanho; i++) {
@@ -49,7 +49,7 @@ bool isSimian(std::string dna[]) {
     return false;
 }
 
-bool isValid(const std::vector<std::string>& dna) {
+bool isValid(const std::vector<std::string>& dna) { //Função que valida a sequência
     if (dna.empty()) {
         return false;
     }
@@ -75,6 +75,7 @@ bool isValid(const std::vector<std::string>& dna) {
 
 int main() {
 
+    //Pega as variáveis de ambiente
     std::string dbHost = std::getenv("PGHOST");
     std::string dbName = std::getenv("PGDATABASE");
     std::string dbUser = std::getenv("PGUSER");
@@ -173,11 +174,8 @@ int main() {
 
         retorno["count_mutant_dna"] = simios;
         retorno["count_human_dna"] = humanos;
-        if (ratio > 0) {
-            retorno["ratio"] = ratio;
-        }else {
-            retorno["ratio"] = "Ratio = 0.0 quando não há humanos.";
-        }
+        retorno["ratio"] = ratio;
+
 
         return retorno;
     });
