@@ -142,9 +142,9 @@ int main() {
     }
 
        if (simian) {
-           return crow::response(200, "Simio");
+           return crow::response(200, "Simio\n");
        }else {
-           return crow::response(403, "Humano");
+           return crow::response(403, "Humano\n");
        }
     });
     CROW_ROUTE(app, "/stats").methods(crow::HTTPMethod::GET)([conexao]() {
