@@ -40,7 +40,7 @@ A API espera uma tabela chamada Dna com a seguinte estrutura lógica:
 
 O banco de dados é provisionado via Railway, com variáveis de ambiente injetadas no container.
   
-## Como Executar via Docker
+## Como Executar localmente via Docker
 
 O projeto já possui um `Dockerfile` que configura todas as dependências necessárias, como `build-essential`, `cmake`, `libasio-dev` e as bibliotecas do Postgres.
 
@@ -61,6 +61,33 @@ O projeto já possui um `Dockerfile` que configura todas as dependências necess
       teste-simios-api
     ```
 
+## Executando localmente sem Docker (Opcional)
+
+### Pré-requisitos
+
+- CMake (>= 3.22)
+- Compilador C++ com suporte a C++17
+- libpqxx (Cliente PostgreSQL para C++)
+
+### Instalação (Linux)
+
+```bash
+sudo apt install build-essential cmake libpqxx-dev libpq-dev
+```
+### Build e Execução
+Partindo da raíz do projeto:
+```bash
+mkdir build
+cd build
+cmake ..
+make
+./TesteSimiosAPI
+```
+### Observações
+
+- É necessário configurar corretamente as variáveis de ambiente para conexão com o banco de dados.
+- A aplicação utiliza um banco PostgreSQL remoto (Railway), portanto requer conexão com a internet.
+
 ## Endpoints da API
 
 A API escuta na porta **18080**.
@@ -73,7 +100,7 @@ Analisa se um DNA é símio ou humano.
       "dna": ["ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"]
     }
     ```
-O nome do vetor dentro do JSON sempre deve ser "dna", caso contrário, a API não conseguirá encontrar a
+O campo "dna" é obrigatório no corpo da requisição, caso contrário, a API não conseguirá encontrar a
 matriz de DNA e retornará o erro 400 (Bad Request)!
 
 * **Respostas:**
@@ -83,9 +110,22 @@ matriz de DNA e retornará o erro 400 (Bad Request)!
 
 Teste utilizando terminal Linux:
  ```bash
-curl -i -X POST https://testesimiosapi-production.up.railway.app/simian
--H "Content-Type: application/json"
+curl -i -X POST https://testesimiosapi-production.up.railway.app/simian \
+-H "Content-Type: application/json" \
 -d '{"dna":["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]}'
+```
+Teste utilizando PowerShell do Windows:
+```bash
+$body = @{
+  dna = @("ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG")
+} | ConvertTo-Json -Compress
+```
+```
+Invoke-RestMethod `
+  -Uri "https://testesimiosapi-production.up.railway.app/simian" `
+  -Method POST `
+  -Body $body `
+  -ContentType "application/json; charset=utf-8"
 ```
   
 
@@ -101,6 +141,11 @@ Retorna um JSON com as quantidades de DNA verificado no banco de dados e a propo
 Teste utilizando terminal Linux:
 ```bash
 curl -i https://testesimiosapi-production.up.railway.app/stats
+```
+
+Teste utilizando PowerShell do Windows:
+```bash
+Invoke-RestMethod -Uri "https://testesimiosapi-production.up.railway.app/stats"
 ```
 
 ## 🔍 Regras de Validação
