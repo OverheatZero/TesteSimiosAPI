@@ -96,6 +96,10 @@ int main() {
         if (!body)
             return crow::response(400, "JSON inválido");
 
+        if (!body.has("dna") || body["dna"].t() != crow::json::type::List) {
+            return crow::response(400, "Campo dna não encontrado!");
+        }
+
         std::vector<std::string> valores;
         for (const auto& linha : body["dna"]) {
             valores.push_back(linha.s());
@@ -129,7 +133,7 @@ int main() {
         try {
             pqxx::connection c(conexao);
             pqxx::work transaction(c);
-            transaction.exec_params("INSERT INTO \"Dna\" VALUES ($1, $2) ON CONFLICT DO NOTHING RETURNING sequenciadna",
+            transaction.exec_params("INSERT INTO \"Dna\" VALUES ($1, $2) ON CONFLICT DO NOTHING",
                              sequenciaDna,
                              resultado);
             transaction.commit();
@@ -138,9 +142,9 @@ int main() {
     }
 
        if (simian) {
-           return crow::response(200);
+           return crow::response(200, "Simio");
        }else {
-           return crow::response(403);
+           return crow::response(403, "Humano");
        }
     });
     CROW_ROUTE(app, "/stats").methods(crow::HTTPMethod::GET)([conexao]() {
