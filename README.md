@@ -63,19 +63,16 @@ O projeto já possui um `Dockerfile` que configura todas as dependências necess
 
 ## Executando localmente sem Docker (Opcional)
 
+Caso deseje rodar a aplicação localmente, é necessário configurar variáveis de ambiente para conexão com um banco PostgreSQL.
+
 ### Pré-requisitos
 
 - CMake (>= 3.22)
 - Compilador C++ com suporte a C++17
-- libpqxx (Cliente PostgreSQL para C++)
+- libpqxx
 
-### Instalação (Linux)
+### Build e execução
 
-```bash
-sudo apt install build-essential cmake libpqxx-dev libpq-dev
-```
-### Build e Execução
-Partindo da raíz do projeto:
 ```bash
 mkdir build
 cd build
@@ -83,10 +80,15 @@ cmake ..
 make
 ./TesteSimiosAPI
 ```
-### Observações
 
-- É necessário configurar corretamente as variáveis de ambiente para conexão com o banco de dados.
-- A aplicação utiliza um banco PostgreSQL remoto (Railway), portanto requer conexão com a internet.
+### Variáveis de Ambiente
+```bash
+export PGHOST=seu_host
+export PGDATABASE=seu_db
+export PGUSER=seu_usuario
+export PGPASSWORD=sua_senha
+export PGPORT=5432
+```
 
 ## Endpoints da API
 
