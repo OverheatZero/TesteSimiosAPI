@@ -50,7 +50,7 @@ O projeto já possui um `Dockerfile` que configura todas as dependências necess
     ```
 
 2.  **Executar o container:**
-    É necessário passar as variáveis de ambiente para a conexão com o banco de dados:
+    É necessário passar as variáveis de ambiente para a conexão com um banco PostgreSQL:
     ```bash
     docker run -p 18080:18080 \
       -e PGHOST=seu_host \
@@ -60,6 +60,10 @@ O projeto já possui um `Dockerfile` que configura todas as dependências necess
       -e PGPORT=5432 \
       teste-simios-api
     ```
+Após isso a API fica acessível localmente:
+
+- http://localhost:18080/simian
+- http://localhost:18080/stats
 
 ## Executando localmente sem Docker (Opcional)
 
@@ -89,6 +93,11 @@ export PGUSER=seu_usuario
 export PGPASSWORD=sua_senha
 export PGPORT=5432
 ```
+Após isso a API fica acessível localmente:
+
+- http://localhost:18080/simian
+- http://localhost:18080/stats
+  
 
 ## Endpoints da API
 
