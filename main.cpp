@@ -149,8 +149,8 @@ int main() {
        }
     });
     CROW_ROUTE(app, "/stats").methods(crow::HTTPMethod::GET)([conexao]() {
-        int simios;
-        int humanos;
+        int simios = 0;
+        int humanos = 0;
         double ratio = 0.0;
         try {
             pqxx::connection c(conexao);
