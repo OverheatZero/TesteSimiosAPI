@@ -87,7 +87,7 @@ int main() {
     try {
         pqxx::connection c(conexao);
     }catch (std::exception& e) {
-        std::cout << "Erro na conexão ao banco!";
+        std::cerr << "Erro: " << e.what() << std::endl;
     }
 
     crow::SimpleApp app;
@@ -98,11 +98,14 @@ int main() {
             return crow::response(400, "JSON inválido");
 
         if (!body.has("dna") || body["dna"].t() != crow::json::type::List) {
-            return crow::response(400, "Campo dna não encontrado!");
+            return crow::response(400, "Campo dna não encontrado, ou não é uma lista!");
         }
 
         std::vector<std::string> valores;
         for (const auto& linha : body["dna"]) {
+            if (linha.t() != crow::json::type::String) {
+                return crow::response(400, "Todos os valores de DNA devem ser strings!");
+            }
             valores.push_back(linha.s());
         }
         if (!isValid(valores)) {
