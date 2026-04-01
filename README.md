@@ -110,7 +110,7 @@ Após isso a API fica acessível localmente:
 
 ## Endpoints da API
 
-Base URL: ```http://localhost:18080```
+A API utiliza a porta **18080**.
 
 ### 1. Verificar DNA (`POST /simian`)
 Analisa se um DNA é símio ou humano.
