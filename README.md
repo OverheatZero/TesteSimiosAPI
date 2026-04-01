@@ -34,11 +34,20 @@ O projeto utiliza os seguintes componentes:
 
 A API espera uma tabela chamada Dna com a seguinte estrutura lógica:
 
-    sequenciadna: String/Texto (Chave Primária para evitar duplicatas).
+    sequenciadna: TEXT (Chave Primária para evitar duplicatas).
+    resultado: TEXT (Valores: "Simio" ou "Humano").
 
-    resultado: String/Texto (Valores: "Simio" ou "Humano").
+A tabela foi gerada da seguinte forma:
 
-O banco de dados é provisionado via Railway, com variáveis de ambiente injetadas no container.
+
+```SQL
+CREATE TABLE Dna (
+sequenciadna TEXT PRIMARY KEY,
+resultado TEXT NOT NULL
+);
+``` 
+
+O banco de dados é provisionado via Railway, com variáveis de ambiente injetadas no container. 
   
 ## Como Executar localmente via Docker
 
@@ -101,7 +110,7 @@ Após isso a API fica acessível localmente:
 
 ## Endpoints da API
 
-A API escuta na porta **18080**.
+Base URL: ```http://localhost:18080```
 
 ### 1. Verificar DNA (`POST /simian`)
 Analisa se um DNA é símio ou humano.
@@ -144,9 +153,9 @@ Invoke-RestMethod `
 Retorna um JSON com as quantidades de DNA verificado no banco de dados e a proporção entre eles.
 ```json
 {
+"ratio": 0.4,
 "count_mutant_dna": 40,
- "count_human_dna": 100,
- "ratio": 0.4
+"count_human_dna": 100
 }
 ```
 Teste utilizando terminal Linux:
@@ -158,9 +167,11 @@ Teste utilizando PowerShell do Windows:
 ```bash
 Invoke-RestMethod -Uri "https://testesimiosapi-production.up.railway.app/stats"
 ```
+Observação: O campo ```ratio``` será 0 quando não houver registros (de humanos ou símios) suficientes para cálculo (evitando divisão por zero).
+
 
 ## 🔍 Regras de Validação
 
-* **Matriz Quadrada:** O DNA deve ser uma matriz $NxN$.
+* **Matriz Quadrada:** O DNA deve ser uma matriz $NxN$ (ex: 4x4, 6x6, etc.).
 * **Caracteres Permitidos:** Apenas 'A', 'T', 'G' e 'C'.
-* **Persistência:** Os resultados são salvos na tabela `"Dna"`, e duplicatas são evitadas através de chave primária e uso de ```ON CONFLICT DO NOTHING.```
+* **Persistência:** Os resultados são salvos na tabela `"Dna"`, e duplicatas são evitadas através de chave primária e uso da cláusula SQL ```ON CONFLICT DO NOTHING.```
