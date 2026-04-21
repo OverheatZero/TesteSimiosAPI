@@ -1,3 +1,7 @@
+#Importante:
+Os endpoints não funcionam mais, já que o período de avaliação gratuita no Railway acabou :/
+Mas ainda pode ser rodado localmente com as instruções abaixo!
+
 # TesteSimiosAPI 
 
 API REST em C++ para detecção de DNA símio em matrizes NxN, com persistência em PostgreSQL e deploy em produção. O projeto utiliza o micro-framework **Crow** para a camada HTTP e **PostgreSQL** para persistência de dados.
@@ -54,11 +58,12 @@ O banco de dados é provisionado via Railway, com variáveis de ambiente injetad
 O projeto já possui um `Dockerfile` que configura todas as dependências necessárias, como `build-essential`, `cmake`, `libasio-dev` e as bibliotecas do Postgres.
 
 1.  **Construir a imagem:**
+2.  Na raíz do projeto:
     ```bash
     docker build -t teste-simios-api .
     ```
 
-2.  **Executar o container:**
+3.  **Executar o container:**
     É necessário passar as variáveis de ambiente para a conexão com um banco PostgreSQL:
     ```bash
     docker run -p 18080:18080 \
